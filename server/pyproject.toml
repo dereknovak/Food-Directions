@@ -1,0 +1,25 @@
+[project]
+name = "server"
+version = "0.1.0"
+description = ""
+authors = [
+    {name = "Derek Novak",email = "derek.novak1@gmail.com"}
+]
+readme = "README.md"
+requires-python = "<4.0,>=3.13"
+dependencies = [
+    "flask (>=3.1.1,<4.0.0)",
+    "flask-cors (>=6.0.0,<7.0.0)",
+    "dotenv (>=0.9.9,<0.10.0)",
+    "requests (>=2.32.3,<3.0.0)",
+    "overpassify (>=1.2.3,<2.0.0)",
+    "overpy (>=0.7,<0.8)"
+]
+
+[tool.poetry]
+packages = [{include = "server", from = "src"}]
+
+
+[build-system]
+requires = ["poetry-core>=2.0.0,<3.0.0"]
+build-backend = "poetry.core.masonry.api"
