@@ -17,5 +17,3 @@ def generate(source: str, destination: str):
         points_of_interest.extend(result)
 
     return points_of_interest
-
-    
