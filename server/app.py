@@ -13,7 +13,7 @@ load_dotenv()
 
 @app.get('/api')
 def action():
-    return search_restaurants("I'm craving some Mexican food in Dallas Texas.")
+    return search_restaurants("Closest high-end mexican restaurants from Copperas Cove")
 
 if __name__ == '__main__':
     app.run(debug=True, port=3000)

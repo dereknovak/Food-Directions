@@ -50,3 +50,8 @@ def search_restaurants(query, limit=5):
     except Exception as e:
         print(f'Effor searching activities: {e}')
         raise e
+    
+query = f'{tuple([31.54932, -97.123664])}'
+print(query)
+    
+print(search_restaurants(query))

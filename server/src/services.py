@@ -1,9 +1,12 @@
 import requests
 import overpy
+from typing import TypedDict
 
 api = overpy.Overpass()
 
-type Coordinate = tuple[float, float]
+class Coordinate(TypedDict):
+    lat: float
+    lon: float
 
 def geocode_location(location: str):
     url = 'https://nominatim.openstreetmap.org/search'
@@ -17,15 +20,15 @@ def geocode_location(location: str):
     response = requests.get(url, params=params, headers=headers)
     data = response.json()
 
-    lon = float(data[0]['lon'])
     lat = float(data[0]['lat'])
+    lon = float(data[0]['lon'])
 
-    return (lon, lat)
+    return { 'lat': lat, 'lon': lon }
 
 def coord_to_str(coord: Coordinate):
-    return ','.join(str(x) for x in coord)
+    return ','.join([str(coord['lon']), str(coord['lat'])])
 
-def generate_directions(source: Coordinate, destination: Coordinate):
+def generate_route(source: Coordinate, destination: Coordinate):
     src = coord_to_str(source)
     des = coord_to_str(destination)
 
@@ -45,5 +48,3 @@ def overpass_query(lat, lon, radius=3000):
     food_options = [[node.tags.get('name'), node.lat, node.lon] for node in response.nodes]
 
     return food_options
-
-
