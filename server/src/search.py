@@ -51,7 +51,31 @@ def search_restaurants(query, limit=5):
         print(f'Effor searching activities: {e}')
         raise e
     
-query = f'{tuple([31.54932, -97.123664])}'
-print(query)
-    
-print(search_restaurants(query))
+def closest_restaurants(query, coord, limit=5):
+    conn = psycopg2.connect(**DB_PARAMS)
+    cursor = conn.cursor(cursor_factory=RealDictCursor)
+    embedding = generate_embedding(query)
+
+    cursor.execute(
+        """
+        SELECT name, city, description,
+        1 - (embedding <=> %s::vector) as similarity,
+        ST_Distance(
+            geog_point,
+            ST_SetSRID(ST_MakePoint(%s, %s), 4326)::geography
+        ) AS distance_meters
+        FROM restaurant
+        WHERE 1 - (embedding <=> %s::vector) > 0.4
+        ORDER BY distance_meters, similarity
+        LIMIT %s;
+        """,
+        (embedding, coord['lon'], coord['lat'], embedding, limit)
+    )
+
+    results = cursor.fetchall()
+    conn.close()
+
+    return results
+
+print(closest_restaurants('Mexican', {'lat': 31.110118, 'lon': -97.35663}))
+

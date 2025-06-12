@@ -10,7 +10,7 @@ from langchain_openai import ChatOpenAI
 from langchain.agents.agent_types import AgentType
 
 from services import geocode_location, generate_route
-from search import search_restaurants
+from search import search_restaurants, closest_restaurants
 
 load_dotenv()
 
@@ -69,15 +69,13 @@ def get_route(source: Coordinate, dest: Coordinate):
 
     return waypoints
 
-@tool
-def get_restaurants(query: Query, waypoint: list[float], limit: int):
-    """Returns a list containing a specified amount of restaurants relevant to query from restaurant database"""
-    price_range = f'{query.price_range['min']}-{query.price_range['max']}' if query.price_range else ''
-    content = f'{query.cuisine} {price_range} {waypoint}'
+# @tool
+# def get_restaurants(query: Query, waypoint: list[float], limit: int):
+#     """Returns a list containing a specified amount of restaurants relevant to query from restaurant database"""
+#     price_range = f'{query.price_range['min']}-{query.price_range['max']}' if query.price_range else ''
+#     content = f'{query.cuisine} {price_range} {waypoint}'
 
-    print(content)
-
-    return search_restaurants(content, limit)
+#     return search_restaurants(content, limit)
 
 @tool
 def get_waypoint(route: list[list[float, float]], index: int, length: int):
@@ -85,10 +83,15 @@ def get_waypoint(route: list[list[float, float]], index: int, length: int):
     waypoint = route[index]
     waypoint.reverse()
 
-    print(waypoint)
     return waypoint
 
-tools = [get_geolocation, get_route, get_restaurants, get_waypoint]
+@tool
+def get_closest_restaurants(query: str, coord: Coordinate, limit=5):
+    """Returns a sorted list of closest restaurants, including name, description, and distance in meters."""
+    return closest_restaurants(query, coord)
+
+
+tools = [get_geolocation, get_route, get_closest_restaurants, get_waypoint]
 
 llm = ChatOpenAI(model='gpt-4o', temperature=0)
 agent = initialize_agent(
@@ -99,6 +102,6 @@ agent = initialize_agent(
 )
 
 # agent.run('Give me 5 resaurants between Copperas Cove and Killeen')
-agent.run('Give me a list of 4 restaurants at the halfway point between Austin and Dallas')
+agent.run('Give me a list of 5 mexican restaurants at the halfway point between Copperas Cove and Dallas')
 
 
