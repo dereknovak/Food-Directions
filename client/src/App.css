@@ -1,2 +1,66 @@
 @import url('./Min.css');
 @import url('https://fonts.googleapis.com/css?family=Rammetto+One%7CRoboto+Condensed');
+
+#root {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+header {
+  background: red;
+  width: 100%;
+}
+
+main {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-evenly;
+  background: yellow;
+  width: 100%;
+  height: 600px;
+}
+
+footer {
+  background: blue;
+  width: 100%;
+  height: 100vh;
+}
+
+h1,
+p {
+  text-align: center;
+}
+
+h1 {
+  font-size: 2rem;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 40%;
+}
+
+textarea {
+  width: 100%;
+  height: 100px;
+}
+
+button.submit {
+  background: green;
+  width: 100%;
+}
+
+section {
+  width: 40%;
+  height: 100%;
+  background: white;
+}
+
+pre {
+  white-space: pre-wrap;
+  word-wrap: break-word;
+}

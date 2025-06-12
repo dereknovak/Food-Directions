@@ -77,5 +77,5 @@ def closest_restaurants(query, coord, limit=5):
 
     return results
 
-print(closest_restaurants('Mexican', {'lat': 31.110118, 'lon': -97.35663}))
+# print(closest_restaurants('Mexican', {'lat': 31.110118, 'lon': -97.35663}))
 

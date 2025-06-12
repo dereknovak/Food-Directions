@@ -87,7 +87,7 @@ def get_waypoint(route: list[list[float, float]], index: int, length: int):
 
 @tool
 def get_closest_restaurants(query: str, coord: Coordinate, limit=5):
-    """Returns a sorted list of closest restaurants, including name, description, and distance in meters."""
+    """Returns a sorted list of closest restaurants, including name, description, and distance in meters. Convert the distance to miles."""
     return closest_restaurants(query, coord)
 
 
@@ -102,6 +102,7 @@ agent = initialize_agent(
 )
 
 # agent.run('Give me 5 resaurants between Copperas Cove and Killeen')
-agent.run('Give me a list of 5 mexican restaurants at the halfway point between Copperas Cove and Dallas')
+# agent.run('Give me a list of 5 mexican restaurants at the halfway point between Copperas Cove and Dallas')
 
-
+def ask_agent(route, context):
+    return agent.run(f'{route} {context}')
